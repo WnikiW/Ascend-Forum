@@ -14,11 +14,26 @@ builder.Services.AddDbContext<AscendForumDbContext>(
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services
+    .AddDefaultIdentity<User>(
+    options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.SignIn.RequireConfirmedEmail = false;
+    })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AscendForumDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+app
+    .SeedDatabase();
 
 if (app.Environment.IsDevelopment())
 {
