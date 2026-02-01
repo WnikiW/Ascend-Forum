@@ -1,8 +1,8 @@
 ﻿namespace Ascend_Forum.Infrastructure.Data;
 
-internal static class UserConstants
+public static class UserConstants
 {
-    internal const int FirstNameMaxLength = 64;
-    internal const int LastNameMaxLength = 64;
-    internal const int AscendNameMaxLength = 128;
+    public const int FirstNameMaxLength = 64;
+    public const int LastNameMaxLength = 64;
+    public const int AscendNameMaxLength = 128;
 }
