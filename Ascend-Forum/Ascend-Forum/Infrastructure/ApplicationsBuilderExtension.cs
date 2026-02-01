@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Ascend_Forum.Infrastructure.Data;
+using Ascend_Forum.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 public static class ApplicationsBuilderExtension
