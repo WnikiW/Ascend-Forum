@@ -34,26 +34,22 @@ public static class ApplicationsBuilderExtension
         var adminRoleExists = await roleManager
             .RoleExistsAsync(RoleType.Administrator);
 
-        if (adminRoleExists)
-            return;
+        if (!adminRoleExists)
+            await roleManager.CreateAsync(new IdentityRole(RoleType.Administrator));
 
-        var roleCreated = await roleManager.CreateAsync(new IdentityRole(RoleType.Administrator));
+        var adminEmail = "admin@abv.bg";
+        var adminPassword = "admin123";
 
-        if (roleCreated.Succeeded)
+        var user = new User()
         {
-            var adminEmail = "admin@abv.bg";
-            var adminPassword = "admin123";
+            Email = adminEmail,
+            UserName = adminEmail,
+            FirstName = "Admin",
+            LastName = "Adminchev",
+            AscendName = "SuperAdminUser"
+        };
 
-            var user = new User()
-            {
-                Email = adminEmail,
-                UserName = adminEmail,
-                FirstName = "Admin",
-                LastName = "Adminchev",
-            };
-
-            await userManager.CreateAsync(user, adminPassword);
-            await userManager.AddToRoleAsync(user, RoleType.Administrator);
-        }
+        await userManager.CreateAsync(user, adminPassword);
+        await userManager.AddToRoleAsync(user, RoleType.Administrator);
     }
 }
