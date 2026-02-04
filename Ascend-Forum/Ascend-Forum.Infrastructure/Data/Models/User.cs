@@ -5,6 +5,12 @@ namespace Ascend_Forum.Infrastructure.Data.Models;
 
 public class User : IdentityUser
 {
+    public User()
+    {
+        Posts = new HashSet<Post>();
+        Comments = new HashSet<Comment>();
+    }
+
     [Required]
     [MaxLength(UserConstants.FirstNameMaxLength)]
     public string FirstName { get; set; }
@@ -16,4 +22,8 @@ public class User : IdentityUser
     [Required]
     [MaxLength(UserConstants.AscendNameMaxLength)]
     public string AscendName { get; set; }
+
+    public virtual ICollection<Post> Posts { get; set; }
+
+    public virtual ICollection<Comment> Comments { get; set; }
 }

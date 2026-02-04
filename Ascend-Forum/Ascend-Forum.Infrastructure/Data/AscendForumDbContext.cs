@@ -18,4 +18,12 @@ public class AscendForumDbContext : IdentityDbContext<User>
 
         base.OnModelCreating(builder);
     }
+
+    public virtual DbSet<Category> Categories { get; set; }
+
+    public virtual DbSet<Category> Comments { get; set; }
+
+    public virtual DbSet<Category> Posts { get; set; }
+
+    public virtual DbSet<Category> Users { get; set; }
 }
