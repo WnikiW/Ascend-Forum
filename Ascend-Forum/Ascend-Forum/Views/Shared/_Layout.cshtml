@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Ascend_Forum.Infrastructure
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +28,28 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                @if (User.IsAdmin())
+                    {
+                        <ul class="navbar-nav">
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    Админ панел
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administrator" asp-controller="Category"
+                                           asp-action="Create">
+                                            Създаване на категория
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ul>
+                    }
                     <partial name="_LoginPartial" />
                 </div>
             </div>
