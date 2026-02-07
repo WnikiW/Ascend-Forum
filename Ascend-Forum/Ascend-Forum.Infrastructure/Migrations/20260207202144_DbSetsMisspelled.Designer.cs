@@ -4,6 +4,7 @@ using Ascend_Forum.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ascend_Forum.Infrastructure.Migrations
 {
     [DbContext(typeof(AscendForumDbContext))]
-    partial class AscendForumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260207202144_DbSetsMisspelled")]
+    partial class DbSetsMisspelled
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
