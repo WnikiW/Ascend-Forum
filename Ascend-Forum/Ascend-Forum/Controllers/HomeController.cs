@@ -8,6 +8,8 @@ namespace Ascend_Forum.Controllers
     {
         public IActionResult Index()
         {
+            // load all categories
+
             return View();
         }
 

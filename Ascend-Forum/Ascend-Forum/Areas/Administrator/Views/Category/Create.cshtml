@@ -1,9 +1,32 @@
-﻿@{
+﻿@using Ascend_Forum.Areas.Administrator.ViewModels;
+
+@model CategoryCreateModel
+
+@{
     ViewData["Title"] = "Create Category";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group mt-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Fitness, Powerlifting ...">
+        <span asp-validation-for="Name" class="small text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" ></textarea>
+        <span asp-validation-for="Description" class="small text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" class="form-control">
+        <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+    </div>
+
+    <input class="btn btn-primary mt-3" type="submit" value="Save"/>
+</form>

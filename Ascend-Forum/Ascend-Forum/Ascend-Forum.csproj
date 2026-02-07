@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Ascend-Forum.Infrastructure\Ascend-Forum.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Administrator\ViewModels\" />
-  </ItemGroup>
-
 </Project>
