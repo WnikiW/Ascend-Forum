@@ -1,9 +1,51 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Ascend_Forum.Areas.Administrator.ViewModels;
+
+@{
+    ViewData["Title"] = "Categories List";
 }
 
+@model CategoryListViewModel[]
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>
+        @this.ViewData["Title"]
+    </h1>
 </div>
 
+<div class="container" style="margin-top:30px">
+    <div class="row mb-4">
+        @foreach (var category in Model)
+        {
+            <div class="col-sm-4">
+                <div class="box box-1">
+                    <img src="@category.ImageUrl" alt="@category.Name"
+                         style="width: 150px; height:150px; object-fit:fill;">
+                </div>
+
+                <div class="box box-2">
+                    <a asp-controller="Category" asp-action="Details" asp-route-categoryId="@(category.Id)">
+                        @category.Name
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .box-2 a {
+        display: block;
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .box-2 a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+</style>

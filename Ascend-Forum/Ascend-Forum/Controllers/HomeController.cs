@@ -1,16 +1,24 @@
 using System.Diagnostics;
+using Ascend_Forum.Areas.Administrator.ViewModels;
+using Ascend_Forum.Infrastructure.Data;
 using Ascend_Forum.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ascend_Forum.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(AscendForumDbContext context) : Controller
     {
         public IActionResult Index()
         {
-            // load all categories
+            var categories = context.Categories
+                .Select(x => new CategoryListViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl,
+                }).ToArray();
 
-            return View();
+            return View(categories);
         }
 
         public IActionResult Privacy()

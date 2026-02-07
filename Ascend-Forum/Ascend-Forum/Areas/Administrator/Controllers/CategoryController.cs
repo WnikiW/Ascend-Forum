@@ -7,6 +7,7 @@ namespace Ascend_Forum.Areas.Administrator.Controllers
 {
     public class CategoryController(AscendForumDbContext context) : BaseAdminController
     {
+
         public IActionResult Create()
         {
             return View();
