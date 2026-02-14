@@ -14,6 +14,12 @@
     </h1>
 </div>
 
+@if ((bool)ViewBag.IsCategorySuccessfullyEdited)
+{
+    <p class="alert alert-success"
+       id="successMessage">Successfully updated category</p>
+}
+
 <div class="container">
     <div class="row">
 
@@ -34,18 +40,50 @@
                         @if (User.IsAdmin())
                         {
                             <a class="btn btn-secondary"
+                               asp-area="Administrator"
                                asp-controller="Category"
                                asp-action="Edit"
                                asp-route-categoryId="@(category.Id)">
                                 Edit
                             </a>
 
-                            <a class="btn btn-danger"
-                               asp-controller="Category"
-                               asp-action="Delete"
-                               asp-route-categoryId="@(category.Id)">
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal-@category.Id">
                                 Delete
-                            </a>
+                            </button>
+
+                            <div class="modal fade" id="deleteModal-@category.Id" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Deletion</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            Are you sure you want to delete "@category.Name" with all of its posts?
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+
+                                            <form asp-area="Administrator"
+                                                  asp-controller="Category"
+                                                  asp-action="Delete"
+                                                  method="post">
+                                                <input type="hidden" name="categoryId" value="@category.Id" />
+                                                <button type="submit" class="btn btn-danger">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         }
                     </div>
                 </div>

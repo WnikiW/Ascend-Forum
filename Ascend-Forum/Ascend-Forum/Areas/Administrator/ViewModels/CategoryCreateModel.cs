@@ -4,6 +4,8 @@ namespace Ascend_Forum.Areas.Administrator.ViewModels
 {
     public class CategoryCreateModel
     {
+        public int CategoryId { get; set; }
+
         [Required(ErrorMessage = "The '{0}' field is required.")]
         public string Name { get; set; }
 

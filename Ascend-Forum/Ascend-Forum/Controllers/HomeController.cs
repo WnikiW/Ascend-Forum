@@ -8,7 +8,7 @@ namespace Ascend_Forum.Controllers
 {
     public class HomeController(AscendForumDbContext context) : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(bool isCategorySuccessfullyEdited = false)
         {
             var categories = context.Categories
                 .Select(x => new CategoryListViewModel
@@ -17,6 +17,8 @@ namespace Ascend_Forum.Controllers
                     Name = x.Name,
                     ImageUrl = x.ImageUrl,
                 }).ToArray();
+
+            ViewBag.IsCategorySuccessfullyEdited = isCategorySuccessfullyEdited;
 
             return View(categories);
         }
