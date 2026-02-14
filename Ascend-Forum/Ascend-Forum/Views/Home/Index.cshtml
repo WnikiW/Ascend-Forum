@@ -20,6 +20,14 @@
        id="successMessage">Successfully updated category</p>
 }
 
+@if (Model.Length > 0)
+{
+    <div style="margin:36px;">
+        <a asp-controller="Post" asp-action="Create"
+           class="btn btn-primary btn-blue">Create post</a>
+    </div>
+}
+
 <div class="container">
     <div class="row">
 

@@ -1,0 +1,26 @@
+﻿@using Ascend_Forum.ViewModels;
+
+@model PostDetailsModel
+
+@{
+    ViewData["Title"] = "Post details";
+}
+
+<div class="text-center">
+    <h1>
+        @this.ViewData["Title"]
+    </h1>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">@Model.Title</h5>
+        <div class="d-flex align-items-center">
+            <span class="fw-bold me-2">@Model.CreatorUsername</span>
+            <small class="text-muted">@Model.CreatedOn</small>
+        </div>
+    </div>
+    <div class="card-body">
+        @Model.Content
+    </div>
+</div>

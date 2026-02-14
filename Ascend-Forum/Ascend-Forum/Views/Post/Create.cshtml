@@ -1,0 +1,41 @@
+﻿@using Ascend_Forum.Infrastructure
+@using Ascend_Forum.ViewModels
+
+
+@{
+    ViewData["Title"] = "Create post";
+}
+
+@model PostCreateModel
+
+<div class="text-center">
+    <h1>
+        @this.ViewData["Title"]
+    </h1>
+</div>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" id="Title" class="form-control" placeholder="Need help with...">
+        <span asp-validation-for="Title" class="small text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" id="Content" class="form-control" rows="6" placeholder="To start with..."></textarea>
+        <span asp-validation-for="Content" class="small text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="SelectedCategoryId"></label>
+        <select asp-for="SelectedCategoryId" class="form-control">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Save" style="margin-top:10px;"/>
+</form>
