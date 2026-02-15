@@ -37,3 +37,10 @@ Setup instructions:
 4. Run the application.
 
 
+Plans in mind for the future include:
+
+- Comments to posts
+- Integration with WYSIWYG editor
+- Emojis on comments
+- Multiple nested comments (replies to replies) implementing a hierarchic structure
+- Integration with Google OAuth provider for easier authentication
