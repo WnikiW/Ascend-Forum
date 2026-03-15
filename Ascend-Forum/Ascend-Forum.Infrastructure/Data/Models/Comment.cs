@@ -15,6 +15,7 @@ public class Comment
     public int Id { get; set; }
 
     [ForeignKey(nameof(Creator))]
+    // todo make it required
     public string CreatorId { get; set; }
 
     public virtual User Creator { get; set; }

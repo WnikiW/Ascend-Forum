@@ -7,5 +7,6 @@
         public string Content { get; set; }
         public string CreatorUsername { get; set; }
         public string CreatedOn { get; set; }
+        public CommentModel[] Comments { get; set; }
     }
 }

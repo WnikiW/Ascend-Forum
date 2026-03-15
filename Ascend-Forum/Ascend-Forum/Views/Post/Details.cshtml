@@ -1,16 +1,58 @@
-﻿@using Ascend_Forum.ViewModels;
-
+﻿@using Ascend_Forum.ViewModels
 @model PostDetailsModel
 
 @{
     ViewData["Title"] = "Post details";
+
+    void DisplayComments(int? parentId)
+    {
+        var comments = Model.Comments.Where(x => x.ParentId == parentId);
+
+        if (!comments.Any())
+        {
+            return;
+        }
+
+        <div class="mt-3">
+            @foreach (var comment in comments)
+            {
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <span class="fw-bold me-2">@comment.CreatorUsername</span>
+                            <small class="text-muted">@comment.CreatedOn</small>
+                        </div>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="showCommentAddForm(@comment.Id)">
+                                Reply
+                            </button>
+                        }
+                    </div>
+                    <div class="card-body">
+                        @Html.Raw(comment.Content)
+
+                        @{
+                            DisplayComments(comment.Id);
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
 }
 
 <div class="text-center">
-    <h1>
-        @this.ViewData["Title"]
-    </h1>
+    <h1>@ViewData["Title"]</h1>
 </div>
+
+@if (ViewBag.IsCommentInputEmpty != null && (bool)ViewBag.IsCommentInputEmpty)
+{
+    <div class="alert alert-danger" role="alert">
+        Comment cannot be empty.
+    </div>
+}
 
 <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -24,3 +66,58 @@
         @Html.Raw(Model.Content)
     </div>
 </div>
+
+<h4 class="mb-3">Comments</h4>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <button id="CommentButton" type="button" class="btn btn-primary mb-4" onclick="showCommentAddForm(null)">
+        Add comment
+    </button>
+}
+
+<div class="comment-section">
+    @{
+        DisplayComments(null);
+    }
+</div>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <form asp-controller="Comment" asp-action="Create" method="post" id="AddCommentForm" style="display: none" class="mt-4 p-4 border rounded bg-light">
+        <input type="hidden" name="PostId" value="@Model.Id" />
+        <input type="hidden" name="ParentId" value="" />
+
+        <div class="mb-3">
+            <textarea name="Content" id="Content" class="form-control" rows="5"></textarea>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <input type="submit" class="btn btn-success" value="Submit comment" />
+        </div>
+    </form>
+}
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "#Content",
+        plugins: ["image paste table link code media"],
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media"
+    });
+</script>
+
+@section Scripts {
+    <script>
+        function showCommentAddForm(parentId) {
+            const parentInput = $("#AddCommentForm input[name='ParentId']");
+            parentInput.val(parentId ?? "");
+
+            $("#AddCommentForm").show();
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#AddCommentForm").offset().top
+            }, 400);
+        }
+    </script>
+}

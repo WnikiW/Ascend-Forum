@@ -68,20 +68,46 @@ namespace Ascend_Forum.Controllers
 
         public IActionResult Details(int postId)
         {
-            var dbPost = context.Posts.Include(x => x.Creator).FirstOrDefault(x => x.Id == postId);
+            var dbPost = context.Posts
+                .Include(x => x.Creator)
+                .FirstOrDefault(x => x.Id == postId);
 
             if (dbPost == null)
                 throw new ArgumentException("Post does not exist.");
 
-            var sanitizer = new HtmlSanitizer();
+            var comments = context.Comments
+                .Include(x => x.Creator)
+                .Where(x => x.PostId == dbPost.Id)
+                .Select(x => new CommentModel
+                {
+                    Id = x.Id,
+                    CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
+                    Content = x.Content,
+                    CreatorUsername = x.Creator.UserName,
+                    ParentId = x.ParentId,
+                })
+                .ToList();
+
+            var projectedComments = comments
+                .Select(x => new CommentModel
+                {
+                    Id = x.Id,
+                    CreatedOn = x.CreatedOn,
+                    Content = x.Content,
+                    CreatorUsername = x.CreatorUsername,
+                    ParentId = x.ParentId,
+                    Parent = comments.FirstOrDefault(y => y.Id == x.ParentId),
+                })
+                .ToArray();
 
             var model = new PostDetailsModel
             {
                 Id = dbPost.Id,
                 Title = dbPost.Title,
-                Content = sanitizer.Sanitize(dbPost.Content),
+                Content = dbPost.Content,
                 CreatorUsername = dbPost.Creator.AscendName,
                 CreatedOn = dbPost.CreatedOn.ToString(CultureInfo.InvariantCulture),
+                Comments = projectedComments,
             };
 
             return View(model);
