@@ -9,6 +9,7 @@ public class User : IdentityUser
     {
         Posts = new HashSet<Post>();
         Comments = new HashSet<Comment>();
+        CommentReactions = new HashSet<CommentReaction>();
     }
 
     [Required]
@@ -26,4 +27,6 @@ public class User : IdentityUser
     public virtual ICollection<Post> Posts { get; set; }
 
     public virtual ICollection<Comment> Comments { get; set; }
+
+    public virtual ICollection<CommentReaction> CommentReactions { get; set; }
 }

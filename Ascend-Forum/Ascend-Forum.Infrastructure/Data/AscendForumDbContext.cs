@@ -16,6 +16,24 @@ public class AscendForumDbContext : IdentityDbContext<User>
             .HasIndex(u => u.AscendName)
             .IsUnique();
 
+        builder.Entity<CommentReaction>(entity =>
+        {
+            entity.HasKey(cr => cr.Id);
+
+            entity.HasOne(cr => cr.Comment)
+                .WithMany(c => c.Reactions)
+                .HasForeignKey(cr => cr.CommentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(cr => cr.User)
+                .WithMany(u => u.CommentReactions)
+                .HasForeignKey(cr => cr.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(cr => new { cr.CommentId, cr.UserId })
+                .IsUnique();
+        });
+
         base.OnModelCreating(builder);
     }
 
@@ -26,4 +44,6 @@ public class AscendForumDbContext : IdentityDbContext<User>
     public DbSet<Post> Posts { get; set; }
 
     public DbSet<User> Users { get; set; }
+
+    public DbSet<CommentReaction> CommentReactions { get; set; }
 }

@@ -5,13 +5,19 @@ namespace Ascend_Forum.Infrastructure.Data.Models;
 
 public class Comment
 {
+
+    public Comment()
+    {
+        Reactions = new HashSet<CommentReaction>();
+    }
+
     [Key]
     public int Id { get; set; }
 
     [ForeignKey(nameof(Creator))]
     public string CreatorId { get; set; }
 
-    public User Creator { get; set; }
+    public virtual User Creator { get; set; }
 
     [Required]
     public string Content { get; set; }
@@ -26,5 +32,7 @@ public class Comment
     [ForeignKey(nameof(Parent))]
     public int? ParentId { get; set; }
 
-    public Comment Parent { get; set; }
+    public virtual Comment Parent { get; set; }
+
+    public virtual ICollection<CommentReaction> Reactions { get; set; }
 }
