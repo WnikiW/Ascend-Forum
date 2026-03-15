@@ -3,6 +3,7 @@ using Ascend_Forum.Infrastructure;
 using Ascend_Forum.Infrastructure.Data;
 using Ascend_Forum.Infrastructure.Data.Models;
 using Ascend_Forum.ViewModels;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,10 +49,12 @@ namespace Ascend_Forum.Controllers
             if (dbCategory == null)
                 throw new ArgumentException("Category does not exist.");
 
+            var sanitizer = new HtmlSanitizer();
+
             var dbPost = new Post
             {
                 Title = model.Title,
-                Content = model.Content,
+                Content = sanitizer.Sanitize(model.Content),
                 CreatorId = this.User.GetId(),
                 CategoryId = dbCategory.Id,
                 CreatedOn = DateTime.Now,
@@ -70,11 +73,13 @@ namespace Ascend_Forum.Controllers
             if (dbPost == null)
                 throw new ArgumentException("Post does not exist.");
 
+            var sanitizer = new HtmlSanitizer();
+
             var model = new PostDetailsModel
             {
                 Id = dbPost.Id,
                 Title = dbPost.Title,
-                Content = dbPost.Content,
+                Content = sanitizer.Sanitize(dbPost.Content),
                 CreatorUsername = dbPost.Creator.AscendName,
                 CreatedOn = dbPost.CreatedOn.ToString(CultureInfo.InvariantCulture),
             };
