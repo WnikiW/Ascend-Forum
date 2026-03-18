@@ -6,9 +6,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-builder.Services.AddDbContext<AscendForumDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
 builder.Services.AddDbContext<AscendForumDbContext>(
     options =>
         options.UseSqlServer(
@@ -43,15 +40,16 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error/500");
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-
 app.MapStaticAssets();
 
 app
