@@ -15,7 +15,7 @@ namespace Ascend_Forum.Controllers
                 return View("BadRequest");
 
             if (statusCode == StatusCodes.Status404NotFound)
-                return View("BadRequest");
+                return View("NotFound");
 
             if (statusCode == StatusCodes.Status500InternalServerError)
                 return View("ServerError");
