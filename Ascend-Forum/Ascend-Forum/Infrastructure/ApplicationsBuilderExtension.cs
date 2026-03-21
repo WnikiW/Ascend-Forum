@@ -40,6 +40,9 @@ public static class ApplicationsBuilderExtension
         var adminEmail = "admin@abv.bg";
         var adminPassword = "admin123";
 
+        if (await userManager.FindByEmailAsync(adminEmail) != null)
+            return;
+
         var user = new User()
         {
             Email = adminEmail,

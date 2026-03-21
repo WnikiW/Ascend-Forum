@@ -1,12 +1,14 @@
-﻿using System.Globalization;
-using Ascend_Forum.Infrastructure;
+﻿using Ascend_Forum.Infrastructure;
 using Ascend_Forum.Infrastructure.Data;
+using Ascend_Forum.Infrastructure.Data.Enums;
 using Ascend_Forum.Infrastructure.Data.Models;
 using Ascend_Forum.ViewModels;
 using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Security.Claims;
 
 namespace Ascend_Forum.Controllers
 {
@@ -75,16 +77,43 @@ namespace Ascend_Forum.Controllers
             if (dbPost == null)
                 throw new ArgumentException("Post does not exist.");
 
-            var comments = context.Comments
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var dbComments = context.Comments
                 .Include(x => x.Creator)
                 .Where(x => x.PostId == dbPost.Id)
-                .Select(x => new CommentModel
+                .ToList();
+
+            var commentIds = dbComments
+                .Select(x => x.Id)
+                .ToList();
+
+            var reactions = context.CommentReactions
+                .Where(x => commentIds.Contains(x.CommentId))
+                .ToList();
+
+            var comments = dbComments
+                .Select(x =>
                 {
-                    Id = x.Id,
-                    CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
-                    Content = x.Content,
-                    CreatorUsername = x.Creator.UserName,
-                    ParentId = x.ParentId,
+                    var commentReactions = reactions
+                        .Where(r => r.CommentId == x.Id)
+                        .ToList();
+
+                    return new CommentModel
+                    {
+                        Id = x.Id,
+                        CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
+                        Content = x.Content,
+                        CreatorUsername = x.Creator.UserName,
+                        ParentId = x.ParentId,
+                        ReactionCounts = commentReactions
+                            .GroupBy(r => r.ReactionType)
+                            .ToDictionary(g => g.Key, g => g.Count()),
+                        CurrentUserReaction = commentReactions
+                            .Where(r => r.UserId == userId)
+                            .Select(r => (ReactionType?)r.ReactionType)
+                            .FirstOrDefault()
+                    };
                 })
                 .ToList();
 
@@ -97,6 +126,8 @@ namespace Ascend_Forum.Controllers
                     CreatorUsername = x.CreatorUsername,
                     ParentId = x.ParentId,
                     Parent = comments.FirstOrDefault(y => y.Id == x.ParentId),
+                    ReactionCounts = x.ReactionCounts,
+                    CurrentUserReaction = x.CurrentUserReaction
                 })
                 .ToArray();
 

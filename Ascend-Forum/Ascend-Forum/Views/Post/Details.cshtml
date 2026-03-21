@@ -1,10 +1,12 @@
 ﻿@using Ascend_Forum.ViewModels
+@using Ascend_Forum.Infrastructure.Data.Enums
 @model PostDetailsModel
 
-@{
-    ViewData["Title"] = "Post details";
-
-    void DisplayComments(int? parentId)
+@ViewData["Title"] = "Post details";
+    
+@functions 
+{
+    async Task DisplayComments(int? parentId)
     {
         var comments = Model.Comments.Where(x => x.ParentId == parentId);
 
@@ -30,11 +32,58 @@
                             </button>
                         }
                     </div>
+
                     <div class="card-body">
                         @Html.Raw(comment.Content)
 
+                        <div class="mt-3 d-flex flex-wrap gap-2">
+                            <form asp-controller="CommentReaction" asp-action="React" method="post">
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <input type="hidden" name="postId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="@ReactionType.ThumbsUp" />
+                                <button type="submit" class="btn btn-sm @(comment.CurrentUserReaction == ReactionType.ThumbsUp ? "btn-primary" : "btn-outline-primary")">
+                                    👍 @(comment.ReactionCounts.TryGetValue(ReactionType.ThumbsUp, out var thumbsUpCount) ? thumbsUpCount : 0)
+                                </button>
+                            </form>
+
+                            <form asp-controller="CommentReaction" asp-action="React" method="post">
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <input type="hidden" name="postId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="@ReactionType.Smile" />
+                                <button type="submit" class="btn btn-sm @(comment.CurrentUserReaction == ReactionType.Smile ? "btn-primary" : "btn-outline-primary")">
+                                    😄 @(comment.ReactionCounts.TryGetValue(ReactionType.Smile, out var smileCount) ? smileCount : 0)
+                                </button>
+                            </form>
+
+                            <form asp-controller="CommentReaction" asp-action="React" method="post">
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <input type="hidden" name="postId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="@ReactionType.Kiss" />
+                                <button type="submit" class="btn btn-sm @(comment.CurrentUserReaction == ReactionType.Kiss ? "btn-primary" : "btn-outline-primary")">
+                                    😘 @(comment.ReactionCounts.TryGetValue(ReactionType.Kiss, out var kissCount) ? kissCount : 0)
+                                </button>
+                            </form>
+
+                            <form asp-controller="CommentReaction" asp-action="React" method="post">
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <input type="hidden" name="postId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="@ReactionType.ThumbsDown" />
+                                <button type="submit" class="btn btn-sm @(comment.CurrentUserReaction == ReactionType.ThumbsDown ? "btn-danger" : "btn-outline-danger")">
+                                    👎 @(comment.ReactionCounts.TryGetValue(ReactionType.ThumbsDown, out var thumbsDownCount) ? thumbsDownCount : 0)
+                                </button>
+                            </form>
+
+                            <form asp-controller="CommentReaction" asp-action="React" method="post">
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <input type="hidden" name="postId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="@ReactionType.Crying" />
+                                <button type="submit" class="btn btn-sm @(comment.CurrentUserReaction == ReactionType.Crying ? "btn-secondary" : "btn-outline-secondary")">
+                                    😢 @(comment.ReactionCounts.TryGetValue(ReactionType.Crying, out var cryingCount) ? cryingCount : 0)
+                                </button>
+                            </form>
+                        </div>
                         @{
-                            DisplayComments(comment.Id);
+                            await DisplayComments(comment.Id);
                         }
                     </div>
                 </div>
@@ -42,6 +91,7 @@
         </div>
     }
 }
+
 
 <div class="text-center">
     <h1>@ViewData["Title"]</h1>
@@ -101,9 +151,9 @@
 <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     tinymce.init({
-        selector: "#Content",
-        plugins: ["image paste table link code media"],
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media"
+    selector: "#Content",
+    plugins: ["image paste table link code media"],
+    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media"
     });
 </script>
 
