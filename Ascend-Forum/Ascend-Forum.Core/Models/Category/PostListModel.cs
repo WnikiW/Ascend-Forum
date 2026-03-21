@@ -1,6 +1,6 @@
-﻿namespace Ascend_Forum.ViewModels
+﻿namespace Ascend_Forum.Core.Models.Category
 {
-    public class PostListViewModel
+    public class PostListModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

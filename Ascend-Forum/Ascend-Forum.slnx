@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Ascend-Forum.Core/Ascend-Forum.Core.csproj" Id="f4c9024d-6e80-4298-8a73-bc57c2ced1a8" />
   <Project Path="Ascend-Forum.Infrastructure/Ascend-Forum.Infrastructure.csproj" />
   <Project Path="Ascend-Forum/Ascend-Forum.csproj" />
   <Project Path="Sandbox/Sandbox.csproj" Id="d48de617-d089-4176-8fff-bb4506bcdf26" />

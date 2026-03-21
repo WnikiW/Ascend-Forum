@@ -1,10 +1,10 @@
-﻿namespace Ascend_Forum.ViewModels
+﻿namespace Ascend_Forum.Core.Models.Category
 {
-    public class CategoryDetailsViewModel
+    public class CategoryDetailsModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public PostListViewModel[] Posts { get; set; }
+        public PostListModel[] Posts { get; set; }
     }
 }

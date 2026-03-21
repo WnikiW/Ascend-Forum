@@ -1,4 +1,6 @@
-﻿using Ascend_Forum.Infrastructure;
+﻿using System.Globalization;
+using System.Security.Claims;
+using Ascend_Forum.Infrastructure;
 using Ascend_Forum.Infrastructure.Data;
 using Ascend_Forum.Infrastructure.Data.Enums;
 using Ascend_Forum.Infrastructure.Data.Models;
@@ -7,8 +9,6 @@ using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System.Security.Claims;
 
 namespace Ascend_Forum.Controllers
 {

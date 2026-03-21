@@ -1,3 +1,6 @@
+using Ascend_Forum.Core.Contracts;
+using Ascend_Forum.Core.Implementations;
+using Ascend_Forum.Infrastructure;
 using Ascend_Forum.Infrastructure.Data;
 using Ascend_Forum.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +30,12 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AscendForumDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<GlobalExceptionFilter>();
+});
+
+builder.Services.AddTransient<ICategoryService, CategoryService>(); // todo this must go somewhere else
 
 var app = builder.Build();
 

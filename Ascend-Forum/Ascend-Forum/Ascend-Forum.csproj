@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ascend-Forum.Core\Ascend-Forum.Core.csproj" />
     <ProjectReference Include="..\Ascend-Forum.Infrastructure\Ascend-Forum.Infrastructure.csproj" />
   </ItemGroup>
 
