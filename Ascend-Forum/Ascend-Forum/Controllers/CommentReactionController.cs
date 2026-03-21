@@ -55,7 +55,7 @@ namespace Ascend_Forum.Controllers
 
             await context.SaveChangesAsync();
 
-            return RedirectToAction("Details", "Post", new { id = postId });
+            return RedirectToAction("Details", "Post", new { postId = postId });
         }
     }
 }
