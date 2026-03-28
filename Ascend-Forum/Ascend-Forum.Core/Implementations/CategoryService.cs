@@ -52,5 +52,61 @@ namespace Ascend_Forum.Core.Implementations
                 Posts = posts,
             };
         }
+
+        public IEnumerable<CategoryModel> GetAllCategories()
+        {
+            return context.Categories
+                .Select(x => new CategoryModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl,
+                })
+                .ToList();
+        }
+
+        public void CreateCategory(string name, string description, string imageUrl)
+        {
+            var exists = context.Categories.Any(x => x.Name.ToLower() == name.ToLower());
+
+            if (exists)
+                throw new ArgumentException("Category with the same name already exists.");
+
+            var dbCategory = new Category()
+            {
+                Name = name,
+                Description = description,
+                ImageUrl = imageUrl,
+            };
+
+            context.Categories.Add(dbCategory);
+            context.SaveChanges();
+        }
+
+        public void EditCategory(int id, string name, string description, string imageUrl)
+        {
+            var dbCategory = context.Categories.FirstOrDefault(x => x.Id == id);
+
+            if (dbCategory == null)
+                throw new EntityNotFoundException(id, nameof(Category));
+
+            dbCategory.Name = name;
+            dbCategory.Description = description;
+            dbCategory.ImageUrl = imageUrl;
+
+            context.SaveChanges();
+        }
+
+        public void DeleteCategory(int id)
+        {
+            var dbCategory = context.Categories.FirstOrDefault(x => x.Id == id);
+
+            if (dbCategory == null)
+                throw new EntityNotFoundException(id, nameof(Category));
+
+            context.Remove(dbCategory);
+            context.SaveChanges();
+        }
     }
 }

@@ -35,7 +35,10 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<GlobalExceptionFilter>();
 });
 
-builder.Services.AddTransient<ICategoryService, CategoryService>(); // todo this must go somewhere else
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IPostService, PostService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<IReactionService, ReactionService>();
 
 var app = builder.Build();
 

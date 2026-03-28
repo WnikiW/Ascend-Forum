@@ -1,6 +1,6 @@
-﻿@using Ascend_Forum.ViewModels
+﻿@using Ascend_Forum.Core.Models.Post
 @using Ascend_Forum.Infrastructure.Data.Enums
-@model PostDetailsModel
+@model PostDetailsServiceModel
 
 @{
     ViewData["Title"] = "Post details";
@@ -147,7 +147,7 @@
         </div>
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <input type="submit" class="btn btn-success" value="Submit comment" />
+            <input type="submit" class="btn btn-success" value="Submit comment" onclick="tinymce.triggerSave()" />
         </div>
     </form>
 }

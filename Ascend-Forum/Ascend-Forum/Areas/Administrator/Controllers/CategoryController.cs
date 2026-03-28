@@ -1,13 +1,12 @@
-﻿using Ascend_Forum.Areas.Administrator.ViewModels;
-using Ascend_Forum.Infrastructure.Data;
-using Ascend_Forum.Infrastructure.Data.Models;
+using Ascend_Forum.Areas.Administrator.ViewModels;
+using Ascend_Forum.Core.Common;
+using Ascend_Forum.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ascend_Forum.Areas.Administrator.Controllers
 {
-    public class CategoryController(AscendForumDbContext context) : BaseAdminController
+    public class CategoryController(ICategoryService categoryService) : BaseAdminController
     {
-
         public IActionResult Create()
         {
             return View();
@@ -19,36 +18,24 @@ namespace Ascend_Forum.Areas.Administrator.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var exists = context.Categories.Any(x => x.Name.ToLower() == model.Name.ToLower());
-
-            if (exists)
+            try
             {
-                ModelState.AddModelError(string.Empty, "Category with the same name already exists.");
-
+                categoryService.CreateCategory(model.Name, model.Description, model.ImageUrl);
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+            catch (ArgumentException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return View();
             }
-
-            var dbCategory = new Category()
-            {
-                Name = model.Name,
-                Description = model.Description,
-                ImageUrl = model.ImageUrl,
-            };
-
-            context.Categories.Add(dbCategory);
-
-            context.SaveChanges();
-
-            return RedirectToAction("Index", "Home", new { area = "" });
         }
-
 
         public IActionResult Edit(int categoryId)
         {
-            var dbCategory = context.Categories.FirstOrDefault(x => x.Id == categoryId);
+            var dbCategory = categoryService.GetCategoryById(categoryId);
 
             if (dbCategory == null)
-                throw new ArgumentException("Category does not exist.");
+                return NotFound();
 
             var model = new CategoryCreateModel
             {
@@ -67,33 +54,29 @@ namespace Ascend_Forum.Areas.Administrator.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var dbCategory = context.Categories.FirstOrDefault(x => x.Id == categoryId);
-
-            if (dbCategory == null)
-                throw new ArgumentException("Category does not exist.");
-            
-            dbCategory.Name = model.Name;
-            dbCategory.Description = model.Description;
-            dbCategory.ImageUrl = model.ImageUrl;
-
-            context.SaveChanges();
-
-            return RedirectToAction("Index", "Home", new { area = "", isCategorySuccessfullyEdited = true }); // might redirect to category details
+            try
+            {
+                categoryService.EditCategory(categoryId, model.Name, model.Description, model.ImageUrl);
+                return RedirectToAction("Index", "Home", new { area = "", isCategorySuccessfullyEdited = true });
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public IActionResult Delete(int categoryId)
         {
-            var dbCategory = context.Categories.FirstOrDefault(x => x.Id == categoryId);
-
-            if (dbCategory == null)
-                throw new ArgumentException("Category does not exist.");
-
-            context.Remove(dbCategory);
-
-            context.SaveChanges();
-
-            return RedirectToAction("Index", "Home", new { area = "" }); // might redirect to category details
+            try
+            {
+                categoryService.DeleteCategory(categoryId);
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

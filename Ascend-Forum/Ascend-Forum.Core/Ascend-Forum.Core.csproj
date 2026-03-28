@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="9.0.892" />
     <ProjectReference Include="..\Ascend-Forum.Infrastructure\Ascend-Forum.Infrastructure.csproj" />
   </ItemGroup>
 
