@@ -34,8 +34,8 @@
         @foreach (var category in Model)
         {
             <div class="col-sm-4 col-md-4 col-lg-4 mb-3">
-                <div class="card text-center" style="width: 18rem;">
-                    <img class="card-img-top" src="@category.ImageUrl" alt="Category image">
+                <div class="card h-100 text-center mx-auto" style="width: 18rem;">
+                    <img class="card-img-top category-card-img" src="@category.ImageUrl" alt="Category image">
                     <div class="card-body">
                         <h5 class="card-title my-3">Title: @category.Name</h5>
                         <a class="btn btn-primary"
