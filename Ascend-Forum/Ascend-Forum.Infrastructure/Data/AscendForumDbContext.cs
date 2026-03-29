@@ -12,6 +12,8 @@ public class AscendForumDbContext : IdentityDbContext<User>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfigurationsFromAssembly(typeof(AscendForumDbContext).Assembly);
+
         builder.Entity<User>()
             .HasIndex(u => u.AscendName)
             .IsUnique();
