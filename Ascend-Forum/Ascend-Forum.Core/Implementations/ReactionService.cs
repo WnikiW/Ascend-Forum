@@ -29,7 +29,7 @@ public class ReactionService(AscendForumDbContext context) : IReactionService
                 CreatedOn = DateTime.UtcNow
             };
 
-            context.CommentReactions.AddAsync(reaction);
+            context.CommentReactions.Add(reaction);
         }
         else if (existingReaction.ReactionType == reactionType)
         {
@@ -40,6 +40,6 @@ public class ReactionService(AscendForumDbContext context) : IReactionService
             existingReaction.ReactionType = reactionType;
         }
 
-        context.SaveChangesAsync();
+        context.SaveChanges();
     }
 }
