@@ -7,9 +7,21 @@ namespace Ascend_Forum.Core.Implementations
 {
     public class MemberService(AscendForumDbContext context) : IMemberService
     {
-        public IEnumerable<MemberViewModel> GetMembers()
+        public IEnumerable<MemberViewModel> GetMembers(int? minPostCount = null, int? minReactionCount = null)
         {
-            return context.Users
+            var query = context.Users.AsQueryable();
+
+            if (minPostCount != null)
+            {
+                query = query.Where(u => u.Posts.Count >= minPostCount);
+            }
+
+            if (minReactionCount != null)
+            {
+                query = query.Where(u => u.Comments.Sum(c => c.Reactions.Count) >= minReactionCount);
+            }
+
+            return query
                 .Select(u => new MemberViewModel
                 {
                     AscendName = u.AscendName,

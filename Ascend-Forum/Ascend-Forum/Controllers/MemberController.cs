@@ -5,9 +5,9 @@ namespace Ascend_Forum.Controllers
 {
     public class MemberController(IMemberService memberService) : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int? minPostCount, int? minReactionCount)
         {
-            var members = memberService.GetMembers();
+            var members = memberService.GetMembers(minPostCount, minReactionCount);
             return View(members);
         }
     }

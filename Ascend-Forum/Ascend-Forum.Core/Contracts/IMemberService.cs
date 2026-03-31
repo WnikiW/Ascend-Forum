@@ -4,6 +4,6 @@ namespace Ascend_Forum.Core.Contracts
 {
     public interface IMemberService
     {
-        IEnumerable<MemberViewModel> GetMembers();
+        IEnumerable<MemberViewModel> GetMembers(int? minPostCount = null, int? minReactionCount = null);
     }
 }
