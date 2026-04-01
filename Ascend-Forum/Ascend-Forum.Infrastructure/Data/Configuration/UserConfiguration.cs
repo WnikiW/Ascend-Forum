@@ -84,7 +84,91 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 PasswordHash = "AQAAAAEAACcQAAAAE...",
                 SecurityStamp = "b2654e37-220f-4fc3-8987-085a93850d9f",
                 ConcurrencyStamp = "dc2e087c-0ae5-4027-80ad-35cd817fe2ad"
-            }
+            },
+            new User
+            {
+                Id = "b1a1c1d1-e111-41a1-9111-111111111111",
+                UserName = "jeff_seid",
+                NormalizedUserName = "JEFF_SEID",
+                Email = "jeff@example.com",
+                NormalizedEmail = "JEFF@EXAMPLE.COM",
+                FirstName = "Jeff",
+                LastName = "Seid",
+                AscendName = "Seid",
+                PasswordHash = "AQAAAAEAACcQAAAAE...",
+                SecurityStamp = "d2a1c1d1-e111-41a1-9111-111111111112",
+                ConcurrencyStamp = "e3a1c1d1-e111-41a1-9111-111111111113"
+            },
+            new User
+            {
+                Id = "b2a2c2d2-e222-42a2-9222-222222222222",
+                UserName = "zyzz",
+                NormalizedUserName = "ZYZZ",
+                Email = "zyzz@example.com",
+                NormalizedEmail = "ZYZZ@EXAMPLE.COM",
+                FirstName = "Aziz",
+                LastName = "Shavershian",
+                AscendName = "Zyzz",
+                PasswordHash = "AQAAAAEAACcQAAAAE...",
+                SecurityStamp = "d2a2c2d2-e222-42a2-9222-222222222223",
+                ConcurrencyStamp = "e3a2c2d2-e222-42a2-9222-222222222224"
+            },
+            new User
+            {
+                Id = "b3a3c3d3-e333-43a3-9333-333333333333",
+                UserName = "chestbrah",
+                NormalizedUserName = "CHESTBRAH",
+                Email = "chestbrah@example.com",
+                NormalizedEmail = "CHESTBRAH@EXAMPLE.COM",
+                FirstName = "Said",
+                LastName = "Shavershian",
+                AscendName = "Chestbrah",
+                PasswordHash = "AQAAAAEAACcQAAAAE...",
+                SecurityStamp = "d3a3c3d3-e333-43a3-9333-333333333334",
+                ConcurrencyStamp = "e3a3c3d3-e333-43a3-9333-333333333335"
+            },
+            new User
+            {
+                Id = "b4a4c4d4-e444-44a4-9444-444444444444",
+                UserName = "dorian_saraci",
+                NormalizedUserName = "DORIAN_SARACI",
+                Email = "dorian@example.com",
+                NormalizedEmail = "DORIAN@EXAMPLE.COM",
+                FirstName = "Dorian",
+                LastName = "Saraci",
+                AscendName = "Dorian",
+                PasswordHash = "AQAAAAEAACcQAAAAE...",
+                SecurityStamp = "d4a4c4d4-e444-44a4-9444-444444444445",
+                ConcurrencyStamp = "e4a4c4d4-e444-44a4-9444-444444444446"
+            },
+            new User
+            {
+                Id = "b5a5c5d5-e555-45a5-9555-555555555555",
+                UserName = "jon_skywalker",
+                NormalizedUserName = "JON_SKYWALKER",
+                Email = "jon@example.com",
+                NormalizedEmail = "JON@EXAMPLE.COM",
+                FirstName = "Jon",
+                LastName = "Skywalker",
+                AscendName = "Skywalker",
+                PasswordHash = "AQAAAAEAACcQAAAAE...",
+                SecurityStamp = "d5a5c5d5-e555-45a5-9555-555555555556",
+                ConcurrencyStamp = "e5a5c5d5-e555-45a5-9555-555555555557"
+            },
+            new User
+            {
+                Id = "b6a6c6d6-e666-46a6-9666-666666666666",
+                UserName = "tnf",
+                NormalizedUserName = "TNF",
+                Email = "tnf@example.com",
+                NormalizedEmail = "TNF@EXAMPLE.COM",
+                FirstName = "TNF",
+                LastName = "Coach",
+                AscendName = "TNF",
+                PasswordHash = "AQAAAAEAACcQAAAAE...",
+                SecurityStamp = "d6a6c6d6-e666-46a6-9666-666666666667",
+                ConcurrencyStamp = "e6a6c6d6-e666-46a6-9666-666666666668"
+            },
         };
     }
 }
