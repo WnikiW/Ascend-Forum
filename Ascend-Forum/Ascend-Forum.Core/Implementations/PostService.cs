@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace Ascend_Forum.Core.Implementations
 {
-    public class PostService(AscendForumDbContext context) : IPostService
+    public class PostService(AscendForumDbContext context, IHtmlSanitizer sanitizer) : IPostService
     {
         public int CreatePost(string title, string content, int categoryId, string creatorId)
         {
@@ -18,8 +18,6 @@ namespace Ascend_Forum.Core.Implementations
 
             if (dbCategory == null)
                 throw new ArgumentException("Category does not exist.");
-
-            var sanitizer = new HtmlSanitizer();
 
             var dbPost = new Post
             {

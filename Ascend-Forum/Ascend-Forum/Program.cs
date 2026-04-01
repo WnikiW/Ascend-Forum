@@ -3,6 +3,7 @@ using Ascend_Forum.Core.Implementations;
 using Ascend_Forum.Infrastructure;
 using Ascend_Forum.Infrastructure.Data;
 using Ascend_Forum.Infrastructure.Data.Models;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,8 @@ builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<IReactionService, ReactionService>();
 builder.Services.AddTransient<IMemberService, MemberService>();
+
+builder.Services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
 
 var app = builder.Build();
 

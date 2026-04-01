@@ -5,11 +5,10 @@ using Ganss.Xss;
 
 namespace Ascend_Forum.Core.Implementations
 {
-    public class CommentService(AscendForumDbContext context) : ICommentService
+    public class CommentService(AscendForumDbContext context, IHtmlSanitizer sanitizer) : ICommentService
     {
         public void CreateComment(string content, int postId, string creatorId, int? parentId)
         {
-            var sanitizer = new HtmlSanitizer();
 
             var comment = new Comment
             {
