@@ -1,3 +1,4 @@
+using Ascend_Forum.Core.Common;
 using Ascend_Forum.Core.Contracts;
 using Ascend_Forum.Infrastructure.Data;
 using Ascend_Forum.Infrastructure.Data.Enums;
@@ -12,9 +13,10 @@ public class ReactionService(AscendForumDbContext context) : IReactionService
         var commentExists = context.Comments.Any(c => c.Id == commentId);
 
         if (!commentExists)
-        {
-            throw new ArgumentException("Comment does not exist.");
-        }
+            throw new EntityNotFoundException(commentId, nameof(Comment));
+
+        if (reactionType < ReactionType.ThumbsUp || reactionType > ReactionType.Crying)
+            throw new ArgumentException("Invalid reaction type.");
 
         var existingReaction = context.CommentReactions
             .FirstOrDefault(cr => cr.CommentId == commentId && cr.UserId == userId);
