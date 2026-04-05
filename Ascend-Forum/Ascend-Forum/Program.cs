@@ -43,6 +43,8 @@ builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<IReactionService, ReactionService>();
 builder.Services.AddTransient<IMemberService, MemberService>();
+builder.Services.AddSingleton<ISupportService, SupportService>();
+builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
 
@@ -80,6 +82,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.MapHub<Ascend_Forum.Hubs.SupportHub>("/supportHub");
 
 app.MapRazorPages()
    .WithStaticAssets();

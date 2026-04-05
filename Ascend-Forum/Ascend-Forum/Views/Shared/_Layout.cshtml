@@ -27,6 +27,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Members</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Support" asp-action="Index">Support</a>
+                        </li>
                     </ul>
 
                     @if (User.IsAdmin())
@@ -35,13 +38,19 @@
                             <div class="dropdown">
                                 <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Админ панел
+                                    Admin Panel
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li>
                                         <a class="dropdown-item" asp-area="Administrator" asp-controller="Category"
                                            asp-action="Create">
-                                            Създаване на категория
+                                            Create category
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Administrator" asp-controller="Support"
+                                           asp-action="Index">
+                                            Customer support requests
                                         </a>
                                     </li>
                                 </ul>

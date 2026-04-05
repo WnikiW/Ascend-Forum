@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Support";
+}
+
+<h1>Support</h1>
+
+<div id="support-container">
+    <button id="btn-contact-support" class="btn btn-primary">Contact customer support</button>
+</div>
+
+<div id="chat-container" style="display:none;">
+    <div id="messages" style="height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;"></div>
+    <div class="input-group">
+        <input type="text" id="message-input" class="form-control" placeholder="Enter a message..." />
+        <button id="btn-send" class="btn btn-success">Send</button>
+    </div>
+</div>
+
+<div id="waiting-message" style="display:none;" class="alert alert-info">
+    No admins are currently available. You're currently in queue. Please, wait...
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/supportHub")
+            .build();
+
+        connection.on("ReceiveMessage", (user, message) => {
+            const msgDiv = document.createElement("div");
+            const strong = document.createElement("strong");
+            strong.textContent = `${user}: `;
+            msgDiv.appendChild(strong);
+            const textNode = document.createTextNode(message);
+            msgDiv.appendChild(textNode);
+            document.getElementById("messages").appendChild(msgDiv);
+            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+        });
+
+        connection.on("WaitingInQueue", () => {
+            document.getElementById("support-container").style.display = "none";
+            document.getElementById("waiting-message").style.display = "block";
+        });
+
+        connection.on("ChatStarted", (partner) => {
+            document.getElementById("support-container").style.display = "none";
+            document.getElementById("waiting-message").style.display = "none";
+            document.getElementById("chat-container").style.display = "block";
+            
+            const msgDiv = document.createElement("div");
+            msgDiv.innerHTML = `<em>Chat started with: ${partner}</em>`;
+            document.getElementById("messages").appendChild(msgDiv);
+        });
+
+        connection.on("PartnerDisconnected", () => {
+             const msgDiv = document.createElement("div");
+             msgDiv.innerHTML = `<em>User disconnected.</em>`;
+             document.getElementById("messages").appendChild(msgDiv);
+             document.getElementById("message-input").disabled = true;
+             document.getElementById("btn-send").disabled = true;
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        document.getElementById("btn-contact-support").addEventListener("click", () => {
+            connection.invoke("RequestSupport").catch(err => console.error(err.toString()));
+        });
+
+        document.getElementById("btn-send").addEventListener("click", () => {
+            const message = document.getElementById("message-input").value;
+            if (message) {
+                connection.invoke("SendMessage", message).catch(err => console.error(err.toString()));
+                document.getElementById("message-input").value = "";
+            }
+        });
+    </script>
+}
