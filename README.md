@@ -99,3 +99,7 @@ The application features an automated seeding mechanism found in `ApplicationsBu
 - **Database**: SQL Server.
 - **Security**: ASP.NET Core Identity, Ganss.Xss (HtmlSanitizer).
 - **Testing**: nUnit, Moq.
+
+---
+
+## 📽️ Demonstrational video - https://www.youtube.com/watch?v=eTKojnvtwRg
