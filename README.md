@@ -101,5 +101,3 @@ The application features an automated seeding mechanism found in `ApplicationsBu
 - **Testing**: nUnit, Moq.
 
 ---
-
-## 📽️ Demonstrational video - https://www.youtube.com/watch?v=eTKojnvtwRg
